@@ -22,10 +22,6 @@ Example:
 
 *input*
 
-![](/images/aligned.jpg)
-
-*aligned original*
-
 ![](/images/goatee.jpg)
 
 *goatee*
