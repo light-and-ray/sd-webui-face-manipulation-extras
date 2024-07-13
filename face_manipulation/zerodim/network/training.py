@@ -612,11 +612,11 @@ class Model:
 
         results = []
 
-        img = torch.from_numpy(img.astype(np.float32) / 255.0).permute(2, 0, 1).to(self.device)
-        residual_code = self.amortized_model.residual_encoder(img.unsqueeze(dim=0))[0]
+        img_tensor = torch.from_numpy(img.astype(np.float32) / 255.0).permute(2, 0, 1).to(self.device)
+        residual_code = self.amortized_model.residual_encoder(img_tensor.unsqueeze(dim=0))[0]
 
         factor_idx = self.config['factor_names'].index(factor_name)
-        factor_codes = self.amortized_model.factor_model(img.unsqueeze(dim=0))['factor_codes'][0]
+        factor_codes = self.amortized_model.factor_model(img_tensor.unsqueeze(dim=0))['factor_codes'][0]
 
         factor_codes = list(torch.split(factor_codes, split_size_or_sections=self.config['factor_dim'], dim=0))
         factor_values = torch.arange(self.config['factor_sizes'][factor_idx], dtype=torch.int64).to(self.device)
@@ -630,9 +630,10 @@ class Model:
             img_manipulated = self.amortized_model.generator(latent_code.unsqueeze(dim=0))[0]
             img_manipulated = (img_manipulated.clamp(min=0, max=1).permute(1, 2, 0).cpu().numpy() * 255).astype(np.uint8)
             results.append(img_manipulated)
+            del img_manipulated, latent_code
             if index is not None:
                 break
-
+        del img_tensor, residual_code, factor_codes, factor_values, factor_embeddings
         return results
 
     def __iterate_latent_model(self, batch):
