@@ -6,6 +6,7 @@ from modules.images import resize_image
 from face_manipulation.zerodim.network.training import Model
 from face_manipulation.face_alignment import image_align
 from face_manipulation.landmarks_detector import LandmarksDetector
+from face_manipulation.weights_download import ensureAllModelsDownloaded
 
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -15,6 +16,7 @@ model = None
 def process(image: Image.Image, factor: str, index: int|None):
     global model
     if model is None:
+        ensureAllModelsDownloaded()
         model_dir = os.path.join(script_dir, 'weights')
         old_disable_safe_unpickle = shared.cmd_opts.disable_safe_unpickle
         try:
@@ -49,6 +51,7 @@ def alignImage(image: Image.Image) -> list[Image.Image]:
     image = resize_image(2, image, newW, newH, "Nearest")
 
     if detector is None:
+        ensureAllModelsDownloaded()
         detector = LandmarksDetector(os.path.join(script_dir, 'weights', 'shape_predictor_68_face_landmarks.dat'))
 
     faces = []
