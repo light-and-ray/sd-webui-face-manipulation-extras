@@ -1,7 +1,7 @@
 import gradio as gr
 from modules import scripts_postprocessing
 from modules.ui_components import InputAccordion
-from face_manipulation.main import process
+from face_manipulation.main import process, alignImage
 
 
 
@@ -28,7 +28,17 @@ class FaceManipulationExtras(scripts_postprocessing.ScriptPostprocessing):
     def process(self, pp: scripts_postprocessing.PostprocessedImage, **args):
         if args['enable'] == False:
             return
+        results = []
 
-        pp.image = process(pp.image, 'age')
+        for face in alignImage(pp.image):
+            if args['includeOriginal']:
+                results.append(face)
+            processed = process(face, 'age')
+            results.append(processed)
+
+        if not results: return
+        pp.image = results[0]
+        if len(results) > 1:
+            pp.extra_images.extend(results[1:])
         pp.info[self.name] = "age: all"
 
