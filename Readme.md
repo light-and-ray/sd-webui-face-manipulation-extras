@@ -12,6 +12,8 @@ Factors:
 - **Facial hair**: `beard, mustache, goatee, shaved`
 - **Glasses**: `glasses, shades, no glasses`
 
+⚠️ You need to have [CUDA Toolkit](https://developer.nvidia.com/cuda-downloads) installed to use it. In installer you can select only "toolkit". And after installation you need to reboot your PC
+
 Limitations:
 - 256p resolution + only aligned faces
 - changes persona a bit
