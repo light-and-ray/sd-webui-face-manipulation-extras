@@ -1,6 +1,6 @@
 # Face Manipulation - extras
 
-This extension adds [avivga/zerodim](https://github.com/avivga/zerodim) model into extras tab if [AUTOMATIC1111/stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui)
+This extension adds [avivga/zerodim](https://github.com/avivga/zerodim) zerodim-ffhq-x256 model into extras tab if [AUTOMATIC1111/stable-diffusion-webui](https://github.com/AUTOMATIC1111/stable-diffusion-webui)
 
 ![](/images/ui.jpg)
 
