@@ -1,0 +1,5 @@
+__pycache__
+.vscode
+.directory
+face_manipulation/zerodim/cache/models/zerodim-ffhq-x256/amortized.pth
+face_manipulation/zerodim/cache/models/zerodim-ffhq-x256/latent.pth
