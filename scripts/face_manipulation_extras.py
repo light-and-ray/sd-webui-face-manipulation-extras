@@ -25,6 +25,7 @@ class FaceManipulationExtras(scripts_postprocessing.ScriptPostprocessing):
         }
         return args
 
+
     def process(self, pp: scripts_postprocessing.PostprocessedImage, **args):
         if args['enable'] == False:
             return
@@ -36,9 +37,13 @@ class FaceManipulationExtras(scripts_postprocessing.ScriptPostprocessing):
             processed = process(face, 'age')
             results.append(processed)
 
-        if not results: return
+        if not results:
+            pp.info[self.name] = "faces weren't detected"
+            return
+
         pp.image = results[0]
         if len(results) > 1:
             pp.extra_images.extend(results[1:])
+
         pp.info[self.name] = "age: all"
 
