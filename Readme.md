@@ -4,7 +4,7 @@ This extension adds [avivga/zerodim](https://github.com/avivga/zerodim) zerodim-
 
 ![](/images/ui.jpg)
 
-Factors:
+**Factors:**
 - **Age**: `kid, teen, adult, old`
 - **Gender**: `male, female`
 - **Ethnicity**: `black, white, asian`
@@ -19,7 +19,7 @@ Limitations:
 - changes persona a bit
 - changes background
 
-Example:
+### Example:
 ![](/images/input.jpg)
 
 *input*
