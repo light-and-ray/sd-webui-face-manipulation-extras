@@ -61,7 +61,9 @@ cached: dict = None
 def alignImage(image: Image.Image) -> list[Image.Image]:
     global detector, cached
 
-    if cached is not None and areImagesTheSame(cached['image'], image):
+    initImage = image
+    if cached is not None and areImagesTheSame(cached['image'], initImage):
+        print('detected faces restored from cache')
         return cached['faces']
 
     w, h = image.size
@@ -79,6 +81,6 @@ def alignImage(image: Image.Image) -> list[Image.Image]:
     for land_mark in detector.get_landmarks(image):
         faces.append(image_align(image, land_mark))
 
-    cached = dict(image=image, faces=faces)
+    cached = dict(image=initImage, faces=faces)
 
     return faces
