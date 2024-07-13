@@ -1,6 +1,6 @@
 import os, cv2
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageChops
 from modules import shared, devices
 from modules.images import resize_image
 from face_manipulation.zerodim.network.training import Model
@@ -28,6 +28,8 @@ def process(image: Image.Image, factor: str, index: int|None):
     model.latent_model.to(devices.device)
     model.amortized_model.to(devices.device)
     try:
+        if image.size[0] > 256:
+            image.resize((256, 256))
         img = np.asarray(image.convert('RGB'))
         img = cv2.resize(img, dsize=(model.config['img_shape'][1], model.config['img_shape'][0]))
         results = model.manipulate(img, factor, index)
@@ -39,10 +41,29 @@ def process(image: Image.Image, factor: str, index: int|None):
     return [Image.fromarray(x) for x in results]
 
 
+
+def areImagesTheSame(image_one, image_two):
+    if image_one.size != image_two.size:
+        return False
+
+    diff = ImageChops.difference(image_one.convert('RGB'), image_two.convert('RGB'))
+
+    if diff.getbbox():
+        return False
+    else:
+        return True
+
+
 detector = None
 
+cached: dict = None
+
 def alignImage(image: Image.Image) -> list[Image.Image]:
-    global detector
+    global detector, cached
+
+    if cached is not None and areImagesTheSame(cached['image'], image):
+        return cached['faces']
+
     w, h = image.size
     image = image.convert('RGB')
     newH = max(h, min(h*2, 2000))
@@ -57,4 +78,7 @@ def alignImage(image: Image.Image) -> list[Image.Image]:
     faces = []
     for land_mark in detector.get_landmarks(image):
         faces.append(image_align(image, land_mark))
+
+    cached = dict(image=image, faces=faces)
+
     return faces
