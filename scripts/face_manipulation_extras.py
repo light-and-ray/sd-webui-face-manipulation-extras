@@ -12,11 +12,12 @@ class FaceManipulationExtras(scripts_postprocessing.ScriptPostprocessing):
     def ui(self):
         global METHODS
         with InputAccordion(False, label=self.name) as enable:
-            selectedFactor = gr.Textbox(visible=False)
+            selectedFactor = gr.Textbox(visible=False, value="age")
             with gr.Tabs():
                 with gr.Tab("Age") as age:
-                    ageChoice = gr.Radio(value="all", choices=["all", "kid", "teen", "adult", "old"], type="index")
+                    ageChoice = gr.Radio(value="all", choices=["all", "kid", "teen", "adult", "old"], type="index", label="")
             includeOriginal = gr.Checkbox(value=True, label="Include aligned original")
+        age.select(fn=lambda: "age", inputs=[], outputs=[selectedFactor])
         args = {
             'enable': enable,
             'selectedFactor': selectedFactor,
@@ -31,11 +32,19 @@ class FaceManipulationExtras(scripts_postprocessing.ScriptPostprocessing):
             return
         results = []
 
+        factor = args['selectedFactor'].lower()
+        choice = 0
+        if factor == 'age':
+            choice = args['ageChoice']
+        index = None
+        if choice > 0:
+            index = choice - 1
+
         for face in alignImage(pp.image):
             if args['includeOriginal']:
                 results.append(face)
-            processed = process(face, 'age')
-            results.append(processed)
+            processed = process(face, 'age', index)
+            results.extend(processed)
 
         if not results:
             pp.info[self.name] = "faces weren't detected"
