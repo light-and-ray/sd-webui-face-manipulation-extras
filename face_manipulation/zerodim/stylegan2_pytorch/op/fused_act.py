@@ -1,4 +1,4 @@
-import os
+import os, platform
 
 import torch
 from torch import nn
@@ -7,6 +7,16 @@ from torch.autograd import Function
 from torch.utils.cpp_extension import load
 
 
+def get_extra_ldflags():
+    extra_ldflags = []
+    for pyversion in ('39', '310', '311', '312', '313'):
+        if platform.system() == 'Windows':
+            username = os.getenv('USERNAME')
+            base_path = os.path.join('C:\\Users', username, f'Python{pyversion}', 'libs')
+            if os.path.exists(base_path):
+                extra_ldflags.append(f"/LIBPATH:{base_path}")
+    return extra_ldflags
+
 module_path = os.path.dirname(__file__)
 fused = load(
     "fused",
@@ -14,9 +24,8 @@ fused = load(
         os.path.join(module_path, "fused_bias_act.cpp"),
         os.path.join(module_path, "fused_bias_act_kernel.cu"),
     ],
-    extra_ldflags=["/LIBPATH:C:\\Users\\username\\Python310\\libs"],
+    extra_ldflags=get_extra_ldflags(),
 )
-
 
 class FusedLeakyReLUFunctionBackward(Function):
     @staticmethod
