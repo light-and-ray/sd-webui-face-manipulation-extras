@@ -1,4 +1,4 @@
-import os, platform
+import os, platform, sys
 
 import torch
 from torch import nn
@@ -6,15 +6,15 @@ from torch.nn import functional as F
 from torch.autograd import Function
 from torch.utils.cpp_extension import load
 
-
 def get_extra_ldflags():
     extra_ldflags = []
-    for pyversion in ('39', '310', '311', '312', '313'):
+    paths =  sys.path
+    for path in paths:
         if platform.system() == 'Windows':
-            username = os.getenv('USERNAME')
-            base_path = os.path.join('C:\\Users', username, f'Python{pyversion}', 'libs')
-            if os.path.exists(base_path):
-                extra_ldflags.append(f"/LIBPATH:{base_path}")
+            extra_ldflags.append(f"/LIBPATH:{path}")
+        else:
+            extra_ldflags.append(f"-L{path}")
+
     return extra_ldflags
 
 module_path = os.path.dirname(__file__)
