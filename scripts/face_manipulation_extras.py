@@ -12,7 +12,7 @@ GLASSES = ["glasses", "shades", "no glasses"]
 
 class FaceManipulationExtras(scripts_postprocessing.ScriptPostprocessing):
     name = "Face manipulation"
-    order = 20500
+    order = 19700
 
     def ui(self):
         global METHODS

@@ -43,3 +43,8 @@ Limitations:
 *kid*
 
 
+## Reactor
+
+You can use [Reactor](https://github.com/Gourieff/sd-webui-reactor) to fix the persona
+
+![](/images/reactor.jpg)
