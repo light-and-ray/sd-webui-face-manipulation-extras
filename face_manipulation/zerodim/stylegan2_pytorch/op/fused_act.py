@@ -1,4 +1,4 @@
-import os, platform, sysinfo
+import os, sysconfig
 
 import torch
 from torch import nn
