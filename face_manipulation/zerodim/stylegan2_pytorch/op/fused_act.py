@@ -1,10 +1,19 @@
-import os, platform, sys
+import os, platform, sysinfo
 
 import torch
 from torch import nn
 from torch.nn import functional as F
 from torch.autograd import Function
 from torch.utils.cpp_extension import load
+
+
+def get_extra_ldflags():
+    path = sysconfig.get_config_var('LIBDIR')
+    if os.name == 'nt':
+        return [f"/LIBPATH:{path}"]
+    else:
+        return [f"-L{path}"]
+
 
 module_path = os.path.dirname(__file__)
 fused = load(
@@ -13,6 +22,7 @@ fused = load(
         os.path.join(module_path, "fused_bias_act.cpp"),
         os.path.join(module_path, "fused_bias_act_kernel.cu"),
     ],
+    extra_ldflags=get_extra_ldflags(),
 )
 
 class FusedLeakyReLUFunctionBackward(Function):
