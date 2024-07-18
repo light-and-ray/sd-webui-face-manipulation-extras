@@ -8,11 +8,11 @@ from torch.utils.cpp_extension import load
 
 
 def get_extra_ldflags():
-    path = sysconfig.get_config_var('LIBDIR')
+    path = os.path.join(sysconfig.get_config_var('installed_base'), 'libs')
     if os.name == 'nt':
         return [f"/LIBPATH:{path}"]
     else:
-        return [f"-L{path}"]
+        return []
 
 
 module_path = os.path.dirname(__file__)
