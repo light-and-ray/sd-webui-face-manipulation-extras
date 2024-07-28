@@ -14,7 +14,7 @@ This extension adds [avivga/zerodim](https://github.com/avivga/zerodim) zerodim-
 
 ⚠️ You need to have [CUDA Toolkit](https://developer.nvidia.com/cuda-downloads) installed to use it. In installer you can select only "toolkit". And after installation you need to reboot your PC
 
-For Windows it also requires [this patch](https://github.com/AUTOMATIC1111/stable-diffusion-webui/pull/16231/files) add `call "%VENV_DIR%\Scripts\activate.bat"` in `webui.bat`
+For Windows it also requires **sd-webui 1.10** (i.e. [this patch](https://github.com/AUTOMATIC1111/stable-diffusion-webui/pull/16231/files) add `call "%VENV_DIR%\Scripts\activate.bat"` in `webui.bat`)
 
 Limitations:
 - 256p resolution + only aligned faces
