@@ -12,9 +12,14 @@ This extension adds [avivga/zerodim](https://github.com/avivga/zerodim) zerodim-
 - **Facial hair**: `beard, mustache, goatee, shaved`
 - **Glasses**: `glasses, shades, no glasses`
 
-⚠️ You need to have [CUDA Toolkit](https://developer.nvidia.com/cuda-downloads) installed to use it. In installer you can select only "toolkit". And after installation you need to reboot your PC
-
-For Windows it also requires **sd-webui 1.10** (i.e. [this patch](https://github.com/AUTOMATIC1111/stable-diffusion-webui/pull/16231/files) add `call "%VENV_DIR%\Scripts\activate.bat"` in `webui.bat`)
+> [!WARNING]
+> You need to have [CUDA Toolkit](https://developer.nvidia.com/cuda-downloads) installed to use it. In installer you can select only "toolkit". And after installation you need to reboot your PC
+> 
+> For Windows it seems that itn't compatible: https://github.com/light-and-ray/sd-webui-face-manipulation-extras/issues/2#issuecomment-2262731519
+> 
+> ```The error message indicates that the package aimrocks==0.5.* is not found. This package is a dependency for the aim package, which in turn is a dependency for stylegan2_pytorch.```
+>
+> ```The aimrocks package is a Python wrapper for the RocksDB library and is used by the aim package for storing experiment data. However, aimrocks is not compatible with Windows, which is why you're seeing this error.```
 
 Limitations:
 - 256p resolution + only aligned faces
